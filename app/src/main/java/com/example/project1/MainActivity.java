@@ -27,6 +27,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore objectFirebaseFireStore;
     private static String STUDENT = "student";
+    private String mylist;
     private static final String Collection = "Student";
     private Dialog objectDialog;
     private EditText Et1, Et2, Et3;
@@ -91,64 +92,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetValues(View v) {
+        objectDialog.show();
+               // objectDocumentReference = objectFirebaseFireStore.collection(STUDENT).document(Et1.getText().toString());
+              objectFirebaseFireStore.collection(Collection).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                  @Override
+                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                      if (task.isSuccessful()) {
 
-        try {
-            if (!Et1.getText().toString().isEmpty()) {
-                objectDocumentReference = objectFirebaseFireStore.collection(STUDENT).document(Et1.getText().toString());
-                ObjectCollectioReference.get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                objectDialog.dismiss();
-                                for (DocumentSnapshot objectDocumentReference : queryDocumentSnapshots) {
-                                    String StudentName = objectDocumentReference.getString("StudentName");
-                                    String Gender = objectDocumentReference.getString("gender");
-                                    String completedata = "Student Name : " + Et2 + '\n' + "Gender : " + Et3 + '\n';
-                                    TextV.setText(completedata);
-                                    Toast.makeText(MainActivity.this, "retrieved data successfully", Toast.LENGTH_SHORT).show();
-                                }
+                          for (QueryDocumentSnapshot doc : task.getResult()) {
+                              mylist += "\n Student Name " + doc.getId();
+                          }
+                          TextV.setText(mylist);
+                          Toast.makeText(MainActivity.this, "get Successfully", Toast.LENGTH_SHORT).show();
+                      } else {
+                          objectDialog.dismiss();
+                          Toast.makeText(MainActivity.this, "failed", Toast.LENGTH_SHORT).show();
 
-                            }
-
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        objectDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Fails to retrieve data:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                Toast.makeText(MainActivity.this, "Invalid Id:", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            objectDialog.dismiss();
-            Toast.makeText(this, "getvalues:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-        }
+                      }
+                  }
+              });
     }
 
-   public void Delete(View v) {
-       try {
-           objectFirebaseFireStore.collection(Collection).get()
-                   .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                       @Override
-                       public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                           if (task.isSuccessful()) {
-                               for (QueryDocumentSnapshot doc : task.getResult()) {
-                                   objectFirebaseFireStore.collection(Collection).document(doc.getId()).delete();
-                               }
-                               Toast.makeText(MainActivity.this, "Deleted Successfully", Toast.LENGTH_LONG).show();
-                           }
-                           else {
-                               objectDialog.dismiss();
 
-                           }
-                       }
-                       });
-       }
-               catch(Exception e)
-        {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-}
+                  public void Delete(View v) {
+                      try {
+                          objectDialog.show();
+                          objectFirebaseFireStore.collection(Collection).get()
+                                  .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                      @Override
+                                      public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                          if (task.isSuccessful()) {
+                                              for (QueryDocumentSnapshot doc : task.getResult()) {
+                                                  objectFirebaseFireStore.collection(Collection).document(doc.getId()).delete();
+                                              }
+                                              Toast.makeText(MainActivity.this, "Deleted Successfully", Toast.LENGTH_LONG).show();
+                                          } else {
+                                              objectDialog.dismiss();
+
+                                          }
+                                      }
+                                  });
+                      } catch (Exception e) {
+                          objectDialog.dismiss();
+                          Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                      }
+                  }
+              }
