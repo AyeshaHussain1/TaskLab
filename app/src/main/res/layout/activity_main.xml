@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/Img"
+    android:background="@drawable/pic"
+    />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/Et1"
+        android:hint="Enter ID"
+        android:inputType="text"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:layout_below="@id/Img"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:id="@+id/Et2"
+        android:layout_marginEnd="10dp"
+        android:hint="Enter your Name"
+        android:inputType="text"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:layout_below="@id/Et1"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/Et3"
+        android:hint="Enter your Gender"
+        android:inputType="text"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:layout_below="@id/Et2"
+        />
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/btn"
+    android:text="Add Values"
+    android:onClick="AddValues"
+    android:layout_below="@id/Et3"
+    />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TextV"
+        android:layout_below="@id/btn"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn1"
+        android:text="Get values"
+        android:onClick="GetValues"
+        android:layout_below="@id/TextV"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn2"
+        android:text="Delete Collection"
+        android:onClick="Delete"
+        android:layout_below="@id/btn1"
+
+        />
+
+</RelativeLayout>
